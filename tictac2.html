@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC-TAC-TOE GAME</title>
+    <style>
+        .game-board {
+            width: 300px;
+            height: 300px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+        .game-cell {
+            background-color: #eee;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-board">
+        <div class="game-cell" id="cell-0"></div>
+        <div class="game-cell" id="cell-1"></div>
+        <div class="game-cell" id="cell-2"></div>
+        <div class="game-cell" id="cell-3"></div>
+        <div class="game-cell" id="cell-4"></div>
+        <div class="game-cell" id="cell-5"></div>
+        <div class="game-cell" id="cell-6"></div>
+        <div class="game-cell" id="cell-7"></div>
+        <div class="game-cell" id="cell-8"></div>
+    </div>
+
+    <script>
+        let gameCells = document.querySelectorAll('.game-cell');
+        let currentPlayer = 'X';
+        let gameOver = false;
+
+        gameCells.forEach(cell => {
+            cell.addEventListener('click', handleCellClick);
+        });
+
+        function handleCellClick(event) {
+            if (gameOver) return;
+
+            let cell = event.target;
+            if (cell.textContent === '') {
+                cell.textContent = currentPlayer;
+                checkForWin();
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            }
+        }
+
+        function checkForWin() {
+            let winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (let combination of winningCombinations) {
+                let cell1 = gameCells[combination[0]].textContent;
+                let cell2 = gameCells[combination[1]].textContent;
+                let cell3 = gameCells[combination[2]].textContent;
+
+                if (cell1 !== '' && cell1 === cell2 && cell2 === cell3) {
+                    alert(`Player ${cell1} wins!`);
+                    gameOver = true;
+                    return;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
